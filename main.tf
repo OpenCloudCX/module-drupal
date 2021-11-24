@@ -25,23 +25,23 @@ data "aws_route53_zone" "vpc" {
 ## Secrets
 
 # User
-resource "aws_secretsmanager_secret" "drupal_secret" {
+resource "aws_secretsmanager_secret" "drupal" {
   name                    = "drupal"
   recovery_window_in_days = 0
 }
 
-resource "random_password" "drupal_password" {
+resource "random_password" "drupal" {
   length           = 24
   special          = true
   override_special = "_%@"
 }
 
-resource "aws_secretsmanager_secret_version" "drupal_secret_version" {
-  secret_id     = aws_secretsmanager_secret.drupal_secret.id
-  secret_string = "{\"username\": \"user\", \"password\": \"${random_password.drupal_password.result}\"}"
+resource "aws_secretsmanager_secret_version" "drupal" {
+  secret_id     = aws_secretsmanager_secret.drupal.id
+  secret_string = "{\"username\": \"user\", \"password\": \"${random_password.drupal.result}\"}"
 }
 
-resource "kubernetes_secret" "drupal_secret" {
+resource "kubernetes_secret" "drupal" {
   metadata {
     name      = "drupal-password"
     namespace = "develop"
@@ -51,30 +51,30 @@ resource "kubernetes_secret" "drupal_secret" {
   }
 
   data = {
-    password = random_password.drupal_password.result
+    password = random_password.drupal.result
   }
 
   type = "kubernetes.io/basic-auth"
 }
 
 # Database
-resource "aws_secretsmanager_secret" "mariadb_root_secret" {
+resource "aws_secretsmanager_secret" "mariadb_root" {
   name                    = "drupal_mariadb_root"
   recovery_window_in_days = 0
 }
 
-resource "random_password" "mariadb_root_password" {
+resource "random_password" "mariadb_root" {
   length           = 24
   special          = true
   override_special = "_%@"
 }
 
-resource "aws_secretsmanager_secret_version" "mariadb_root_secret_version" {
-  secret_id     = aws_secretsmanager_secret.mariadb_root_secret.id
-  secret_string = "{\"password\": \"${random_password.mariadb_root_password.result}\"}"
+resource "aws_secretsmanager_secret_version" "mariadb_root" {
+  secret_id     = aws_secretsmanager_secret.mariadb_root.id
+  secret_string = "{\"password\": \"${random_password.mariadb_root.result}\"}"
 }
 
-resource "kubernetes_secret" "drupal_mariadb_root_secret" {
+resource "kubernetes_secret" "drupal_mariadb_root" {
   metadata {
     name      = "drupal-mariadb-root-password"
     namespace = "develop"
@@ -84,26 +84,26 @@ resource "kubernetes_secret" "drupal_mariadb_root_secret" {
   }
 
   data = {
-    password = random_password.mariadb_root_password.result
+    password = random_password.mariadb_root.result
   }
 
   type = "kubernetes.io/basic-auth"
 }
 
-resource "aws_secretsmanager_secret" "mariadb_secret" {
+resource "aws_secretsmanager_secret" "mariadb" {
   name                    = "drupal_mariadb_user"
   recovery_window_in_days = 0
 }
 
-resource "random_password" "mariadb_password" {
+resource "random_password" "mariadb" {
   length           = 24
   special          = true
   override_special = "_%@"
 }
 
-resource "aws_secretsmanager_secret_version" "mariadb_secret_version" {
-  secret_id     = aws_secretsmanager_secret.mariadb_secret.id
-  secret_string = "{\"username\": \"bn_drupal\", \"password\": \"${random_password.mariadb_password.result}\"}"
+resource "aws_secretsmanager_secret_version" "mariadb" {
+  secret_id     = aws_secretsmanager_secret.mariadb.id
+  secret_string = "{\"username\": \"bn_drupal\", \"password\": \"${random_password.mariadb.result}\"}"
 }
 
 ## Helm chart
@@ -119,7 +119,7 @@ resource "helm_release" "drupal" {
 
   set {
     name  = "drupalPassword"
-    value = random_password.drupal_password.result
+    value = random_password.drupal.result
   }
 
   set {

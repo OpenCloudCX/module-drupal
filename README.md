@@ -114,3 +114,11 @@ module "code-server" {
 
 ```
 
+# Credentials
+
+|Name|URL|Username|Password Location|
+|---|---|---|---|
+|Drupal| ```https://drupal.[DNS ZONE]```|None|AWS Secrets Manager [```drupal```]|
+|MariaDB root|N/A|None|AWS Secrets Manager [```drupal_mariadb_root```]|
+|MariaDB user|N/A|bn_drupal|AWS Secrets Manager [```drupal_mariadb_user```]|
+

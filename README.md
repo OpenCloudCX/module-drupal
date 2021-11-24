@@ -95,7 +95,7 @@ provider "helm" {
   }
 }
 
-module "code-server" {
+module "drupal" {
   source = "../module-drupal"
 
   dns_zone     = var.dns_zone

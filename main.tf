@@ -46,7 +46,7 @@ resource "kubernetes_secret" "drupal" {
     name      = "drupal-password"
     namespace = "develop"
     labels = {
-      "ConnectOutput"="true"
+      "ConnectOutput" = "true"
     }
   }
 
@@ -79,7 +79,7 @@ resource "kubernetes_secret" "drupal_mariadb_root" {
     name      = "drupal-mariadb-root-password"
     namespace = "develop"
     labels = {
-      "ConnectOutput"="true"
+      "ConnectOutput" = "true"
     }
   }
 

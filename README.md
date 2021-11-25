@@ -35,6 +35,14 @@ The source block will be in either of these formats
 source = "<path to module>"
 ```
 
+## Git repository
+
+```
+source = "git::ssh://git@github.com/<account or organization>/<repository>?ref=<branch>"
+```
+
+Note: If pulling from `main` branch, `?ref=<branch>` is not necessary.
+
 ## Terraform module
 
 ```
@@ -66,7 +74,7 @@ provider "helm" {
 
 Note: When multiple environments or cloud-providers are in use, the named module reference will need to be changed per environment.
 
-## Local module example
+## Module example with Git repository reference
 
 This example also adds a `kubernetes_namespace` definition to create the namespace if one does not already exist.
 
@@ -96,7 +104,8 @@ provider "helm" {
 }
 
 module "drupal" {
-  source = "../module-drupal"
+source = "git::ssh://git@github.com/OpenCloudCX/module-drupal?ref=develop"
+
 
   dns_zone     = var.dns_zone
   namespace    = "develop"

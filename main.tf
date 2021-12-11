@@ -44,7 +44,7 @@ resource "aws_secretsmanager_secret_version" "drupal" {
 resource "kubernetes_secret" "drupal" {
   metadata {
     name      = "drupal-password"
-    namespace = "develop"
+    namespace = var.namespace
     labels = {
       "ConnectOutput" = "true"
     }
@@ -77,7 +77,7 @@ resource "aws_secretsmanager_secret_version" "mariadb_root" {
 resource "kubernetes_secret" "drupal_mariadb_root" {
   metadata {
     name      = "drupal-mariadb-root-password"
-    namespace = "develop"
+    namespace = var.namespace
     labels = {
       "ConnectOutput" = "true"
     }
@@ -136,7 +136,7 @@ resource "kubernetes_ingress" "ingress" {
 
   metadata {
     name      = "drupal"
-    namespace = "develop"
+    namespace = var.namespace
 
     annotations = {
       "kubernetes.io/ingress.class"    = "nginx"

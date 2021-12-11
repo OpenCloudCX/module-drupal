@@ -26,7 +26,7 @@ data "aws_route53_zone" "vpc" {
 
 # User
 resource "aws_secretsmanager_secret" "drupal" {
-  name                    = "drupal"
+  name                    = "drupal-${var.stack}"
   recovery_window_in_days = 0
 }
 

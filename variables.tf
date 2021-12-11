@@ -32,3 +32,8 @@ variable "helm_timeout" {
   default     = 600
 }
 
+
+variable "stack" {
+  type    = string
+  default = ""
+}
